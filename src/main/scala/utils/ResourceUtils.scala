@@ -1,22 +1,10 @@
 package utils
 
-import java.io.InputStream
-import scala.io.Codec
-import scala.util.{Failure, Success, Try}
+import scala.io.Source.fromResource
 
-object ResourceUtils {
+object ReadUtils {
 
-  def getLinesFromResources(resourceName: String): List[String] = {
-    val stream: InputStream = getClass.getResourceAsStream(resourceName)
+  def readFromResources(resource: String): Seq[String] =
+    fromResource(resource).getLines.toSeq
 
-    val result: List[String] = Try(scala.io.Source.fromInputStream(stream)(Codec.UTF8).getLines) match {
-      case Success(value) =>
-        value.toList
-      case Failure(exception) =>
-        exception.printStackTrace()
-        List()
-    }
-    stream.close()
-    result
-  }
 }
